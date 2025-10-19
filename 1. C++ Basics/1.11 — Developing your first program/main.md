@@ -1,0 +1,1 @@
+There’s a saying I’m fond of: “You have to write a program once to know how you should have written it the first time.” This speaks to the fact that the best solution often isn’t obvious, and that our first solutions to problems are usually not as good as they could be.
