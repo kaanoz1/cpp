@@ -314,3 +314,6 @@ The answer is: it depends. If a forward declaration is made, but the function is
 ## Pure declarations ?
 
 Declarations that aren’t definitions are called pure declarations.
+
+TODO: Fill the 2.9 https://www.learncpp.com/cpp-tutorial/naming-collisions-and-an-introduction-to-namespaces/
+
