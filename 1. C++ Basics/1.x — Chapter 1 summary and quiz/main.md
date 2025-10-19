@@ -17,6 +17,31 @@ Value-initialization	int x {};	Usually performs zero-initialization
 
 **Unary** operators take one operand. **Binary** operators take two operands, often called left and right. **Ternary** operators take three operands. **Nullary** operators take zero operands.
 
+Examples:
+
+Unary: 
+int x = 5;
+int y = -x;
+
+Binary:
+
+int z = 10 + 5;
+
+Ternary:
+
+int score = 80;
+char grade = (score > 90) ? 'A' : 'B';
+
+Nullary:
+
+try {
+
+} 
+catch (...) {
+
+    throw; 
+}
+
 An **expression is a sequence of literals, variables, operators, and function calls that are evaluated to produce a single output value.** The calculation of this output value is called **evaluation**. The value produced is the result of the expression.
 
 An expression statement is an expression that has been turned into a statement by placing a semicolon at the end of the expression.
