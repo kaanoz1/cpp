@@ -1,0 +1,1 @@
+Check the compiler extensions and configurations for your IDE by checking: https://www.learncpp.com/cpp-tutorial/configuring-your-compiler-compiler-extensions/
