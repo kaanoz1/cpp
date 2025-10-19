@@ -23,3 +23,10 @@ The first two are built-in to the language itself (and do not require the inclus
 Many of the types defined in newer versions of C++ (e.g. std::nullptr_t) use a _t suffix. This suffix means “type”, and it’s a common nomenclature applied to modern types.
 
 If you see something with a _t suffix, it’s probably a type. But many types don’t have a _t suffix, so this isn’t consistently applied.
+
+
+## Void type
+
+Void is the easiest of the data types to explain. Basically, void means “no type”!
+
+Void is our first example of an incomplete type. An incomplete type is a type that has been declared but not yet defined.
