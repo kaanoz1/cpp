@@ -310,3 +310,75 @@ Use the following procedure:
         - Each place you slide the decimal point to the right decreases the exponent by 1.
     - Trim off any leading zeros (on the left end of the significand)
     - Trim off any trailing zeros (on the right end of the significand) only if the original number had no decimal point. We’re assuming they’re not significant. If you have additional information to suggest they are significant, you can keep them.
+
+
+
+## NaN and Inf
+
+    - Inf, which represents infinity. Inf is signed, and can be positive (+Inf) or negative (-Inf).
+    - NaN, which stands for “Not a Number”. There are several different kinds of NaN (which we won’t discuss here).
+    - Signed zero, meaning there are separate representations for “positive zero” (+0.0) and “negative zero” (-0.0).
+
+```cpp
+#include <iostream>
+
+int main()
+{
+    double zero { 0.0 };
+
+    double posinf { 5.0 / zero }; // positive infinity
+    std::cout << posinf << '\n';
+
+    double neginf { -5.0 / zero }; // negative infinity
+    std::cout << neginf << '\n';
+
+    double z1 { 0.0 / posinf }; // positive zero
+    std::cout << z1 << '\n';
+
+    double z2 { -0.0 / posinf }; // negative zero
+    std::cout << z2 << '\n';
+
+    double nan { zero / zero }; // not a number (mathematically invalid)
+    std::cout << nan << '\n';
+
+    return 0;
+}
+```
+
+```cpp
+#include <iostream>
+
+int main()
+{
+    double zero { 0.0 };
+
+    double posinf { 5.0 / zero }; // positive infinity
+    std::cout << posinf << '\n';
+
+    double neginf { -5.0 / zero }; // negative infinity
+    std::cout << neginf << '\n';
+
+    double z1 { 0.0 / posinf }; // positive zero
+    std::cout << z1 << '\n';
+
+    double z2 { -0.0 / posinf }; // negative zero
+    std::cout << z2 << '\n';
+
+    double nan { zero / zero }; // not a number (mathematically invalid)
+    std::cout << nan << '\n';
+
+    return 0;
+}
+```
+
+Output:
+
+```plaintext
+inf
+-inf
+0
+-0
+-nan
+```
+
+
