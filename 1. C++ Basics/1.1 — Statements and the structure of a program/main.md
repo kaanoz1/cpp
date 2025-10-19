@@ -4,7 +4,6 @@ A statement is a type of instruction.
 
 Most (but not all) statements in C++ end in a semicolon. 
 
-
 - For advanced readers
 
 There are many different kinds of statements in C++:
