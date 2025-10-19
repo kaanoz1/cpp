@@ -292,3 +292,21 @@ The sizeof operator must be able to return the byte-size of an object as a value
 If it were possible to create a larger object, sizeof would not be able to return its byte-size, as it would be outside the range that a std::size_t could hold. Thus, creating an object with a size (in bytes) larger than the largest value an object of type std::size_t can hold is invalid (and will cause a compile error).
 
 For example, let’s assume that std::size_t has a size of 4 bytes on our system. An unsigned 4-byte integral type has range 0 to 4,294,967,295. Therefore, a 4-byte std::size_t object can hold any value from 0 to 4,294,967,295. Any object with a byte-size of 0 to 4,294,967,295 could have it’s size returned in a value of type std::size_t, so this is fine. However, if the byte-size of an object were larger than 4,294,967,295 bytes, then sizeof would not be able to return the size of that object accurately, as the value would be outside the range of a std::size_t. Therefore, no object larger than 4,294,967,295 bytes could be created on this system.
+
+## Scientific Notation
+
+```cpp
+long long x = 5.94e24;
+```
+## How to convert decimal numbers to scientific notation
+
+
+Use the following procedure:
+
+    - Your exponent starts at zero.
+    - If the number has no explicit decimal point (e.g. 123), it is implicitly on the right end (e.g. 123.)
+    - Slide the decimal point left or right so there is only one non-zero digit to the left of the decimal.
+        - Each place you slide the decimal point to the left increases the exponent by 1.
+        - Each place you slide the decimal point to the right decreases the exponent by 1.
+    - Trim off any leading zeros (on the left end of the significand)
+    - Trim off any trailing zeros (on the right end of the significand) only if the original number had no decimal point. We’re assuming they’re not significant. If you have additional information to suggest they are significant, you can keep them.
