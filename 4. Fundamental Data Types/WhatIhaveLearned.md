@@ -535,3 +535,6 @@ You won’t need to use char8_t, char16_t, or char32_t unless you’re planning 
 Unicode and localization are generally outside the scope of these tutorials, so we won’t cover it further. In the meantime, you should only use ASCII characters when working with characters (and strings). Using characters from other character sets may cause your characters to display incorrectly.
 
 
+## Why not UTF-32 but UTF-8?
+
+Since UTF-32 has 4 bytes and UTF-8 has 1 byte, it is obvious that UTF-32 has more character capacity then UTF-8. But why dont we use UTF-32 if it is more capable for communication. I browsered it and found that UTF-8 has minimimum capacity 1 byte and maximum for 4 bytes. It can be enhanced to the 4 byte whenever it is obligated with print a non-common value.
