@@ -233,3 +233,29 @@ We have presedence table for the all operators defined in CPP:
 
 
 Note: sizeof() is an operator.
+
+## Integer Divison or Float Point Division?
+
+If either (or both) of the operands are floating point values, the division operator performs floating point division. Floating point division returns a floating point value, and the fraction is kept. For example, 7.0 / 4 = 1.75, 7 / 4.0 = 1.75, and 7.0 / 4.0 = 1.75. As with all floating point arithmetic operations, rounding errors may occur.
+
+If both of the operands are integers, the division operator performs integer division instead. Integer division drops any fractions and returns an integer value. For example, 7 / 4 = 1 because the fractional portion of the result is dropped. Similarly, -7 / 4 = -1 because the fraction is dropped.
+
+## Modifying and non-modifying operators
+
+An operator that can modify the value of one of its operands is informally called a modifying operator. In C++, most operators are non-modifying -- they just use the operands to calculate and return a value. However, two categories of built-in operators do modify their left operand (as well as return a value):
+
+## Remainder with negative numbers
+
+The remainder operator can also work with negative operands. x % y always returns results with the sign of x.
+
+## Where’s the exponent operator?
+
+You’ll note that the ^ operator (commonly used to denote exponentiation in mathematics) is a Bitwise XOR operation in C++ (covered in lesson O.3 -- Bit manipulation with bitwise operators and bit masks). C++ does not include an exponent operator.
+
+To do exponents in C++, #include the <cmath> header, and use the pow() function:
+```cpp
+#include <cmath>
+
+double x{ std::pow(3.0, 4.0) }; // 3 to the 4th power
+``` 
+Note that the parameters (and return value) of function pow() are of type double. Due to rounding errors in floating point numbers, the results of pow() may not be precise (even if you pass it integers or whole numbers).
