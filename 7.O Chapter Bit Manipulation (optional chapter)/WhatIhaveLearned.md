@@ -406,3 +406,180 @@ But know, in modern cpp environment we use in order for telling the compiler tha
 So by that we can declare mini functions in header files and since compiler will assume that they are same. (Even though it encounter multiple definitions of a function)
 
 
+Global constants as inline variables C++17
+
+In lesson 7.9 -- Inline functions and variables, we covered inline variables, which are variables that can have more than one definition, so long as those definitions are identical. By making our constexpr variables inline, we can define them in a header file and then #include them into any .cpp file that requires them. This avoids both ODR violations and the downside of duplicated variables.
+
+A reminder
+
+Constexpr functions are implicitly inline, but constexpr variables are not implicitly inline. If you want an inline constexpr variable, you must explicitly mark it as inline.
+
+Key insight
+
+Inline variables have external linkage by default, so that they are visible to the linker. This is necessary so the linker can de-duplicate the definitions.
+
+Non-inline constexpr variables have internal linkage. If included into multiple translation units, each translation unit will get its own copy of the variable. This is not an ODR violation because they are not exposed to the linker.
+
+constants.h:
+```cpp
+
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
+
+// define your own namespace to hold constants
+namespace constants
+{
+    inline constexpr double pi { 3.14159 }; // note: now inline constexpr
+    inline constexpr double avogadro { 6.0221413e23 };
+    inline constexpr double myGravity { 9.2 }; // m/s^2 -- gravity is light on this planet
+    // ... other related constants
+}
+#endif
+
+main.cpp:
+
+#include "constants.h"
+
+#include <iostream>
+
+int main()
+{
+    std::cout << "Enter a radius: ";
+    double radius{};
+    std::cin >> radius;
+
+    std::cout << "The circumference is: " << 2 * radius * constants::pi << '\n';
+
+    return 0;
+}
+```
+We can include constants.h into as many code files as we want, but these variables will only be instantiated once and shared across all code files.
+
+This method does retain the downside of requiring every file that includes the constants header be recompiled if any constant value is changed.
+
+Advantages:
+
+    Can be used in constant expressions in any translation unit that includes them.
+    Only one copy of each variable is required.
+
+
+## Static keyworad
+
+Static keyword gives internal linkage.
+
+By static keyword. Initialization done once.
+
+```cpp
+#include <iostream>
+
+void incrementAndPrint()
+{
+    static int s_value{ 1 }; // static duration via static keyword.  This initializer is only executed once.
+    ++s_value;
+    std::cout << s_value << '\n';
+} // s_value is not destroyed here, but becomes inaccessible because it goes out of scope
+
+int main()
+{
+    incrementAndPrint();
+    incrementAndPrint();
+    incrementAndPrint();
+
+    return 0;
+}
+#include <iostream>
+
+void incrementAndPrint()
+{
+    static int s_value{ 1 }; // static duration via static keyword.  This initializer is only executed once.
+    ++s_value;
+    std::cout << s_value << '\n';
+} // s_value is not destroyed here, but becomes inaccessible because it goes out of scope
+
+int main()
+{
+    incrementAndPrint();
+    incrementAndPrint();
+    incrementAndPrint();
+
+    return 0;
+}
+```
+
+Note: Static local variables that are zero-initialized or have a constexpr initializer can be initialized at program start.
+
+## Scope summary
+
+An identifier’s scope determines where the identifier can be accessed within the source code.
+
+    Variables with block (local) scope can only be accessed from the point of declaration until the end of the block in which they are declared (including nested blocks). This includes:
+        Local variables
+        Function parameters
+        Program-defined type definitions (such as enums and classes) declared inside a block
+    Variables and functions with global scope can be accessed from the point of declaration until the end of the file. This includes:
+        Global variables
+        Functions
+        Program-defined type definitions (such as enums and classes) declared inside a namespace or in the global scope
+
+## Duration summary
+
+A variable’s duration determines when it is created and destroyed.
+
+    Variables with automatic duration are created at the point of definition, and destroyed when the block they are part of is exited. This includes:
+        Local variables
+        Function parameters
+    Variables with static duration are created when the program begins and destroyed when the program ends. This includes:
+        Global variables
+        Static local variables
+    Variables with dynamic duration are created and destroyed by programmer request. This includes:
+        Dynamically allocated variables
+
+
+
+## Linkage summary
+
+An identifier’s linkage determines whether a declaration of that same identifier in a different scope refers to the same entity (object, function, reference, etc…) or not.
+
+Local variables have no linkage. Each declaration of an identifier with no linkage refers to a unique object or function.
+
+    An identifier with no linkage means another declaration of the same identifier refers to a unique entity. Entities whose identifiers have no linkage include:
+        Local variables
+        Program-defined type identifiers (such as enums and classes) declared inside a block
+    An identifier with internal linkage means a declaration of the same identifier within the same translation unit refers to the same object or function. Entities whose identifiers have internal linkage include:
+        Static global variables (initialized or uninitialized)
+        Static functions
+        Const global variables
+        Unnamed namespaces and anything defined within them
+    An identifier with external linkage means a declaration of the same identifier within the entire program refers to the same object or function. Entities whose identifiers have external linkage include:
+        Non-static functions
+        Non-const global variables (initialized or uninitialized)
+        Extern const global variables
+        Inline const global variables
+        Namespaces
+
+Identifiers with external linkage will generally cause a duplicate definition linker error if the definitions are compiled into more than one .cpp file (due to violating the one-definition rule). There are some exceptions to this rule (for types, templates, and inline functions and variables) -- we’ll cover these further in future lessons when we talk about those topics.
+
+Also note that functions have external linkage by default. They can be made internal by using the static keyword.
+
+## Variable scope, duration, and linkage summary
+
+![Variable Scope, duratin adn linkage summary](variable-scope-duration-summary.png)
+
+
+## Forward declaration summary
+
+You can use a forward declaration to access a function or variable in another file. The scope of the declared variable is as per usual (global scope for globals, block scope for locals).
+
+![Forward Declaration Summary](forward-declaration-summary.png)
+
+A constexpr variable (which is implicitly const) can be forward declared using a const variable forward declaration. When accessed through the forward declaration, the variable will be considered const (not constexpr).
+
+## What the heck is a storage class specifier?
+
+When used as part of an identifier declaration, the static and extern keywords are called storage class specifiers. In this context, they set the storage duration and linkage of the identifier.
+
+C++ supports 4 active storage class specifiers:
+
+![Storage Class Specifer](storage-class-specifier.png)
+
+The term storage class specifier is typically only used in formal documentation.
