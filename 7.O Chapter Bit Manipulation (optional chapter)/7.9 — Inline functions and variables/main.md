@@ -37,3 +37,4 @@ But know, in modern cpp environment we use in order for telling the compiler tha
 So by that we can declare mini functions in header files and since compiler will assume that they are same. (Even though it encounter multiple definitions of a function)
 
 
+# In fina
